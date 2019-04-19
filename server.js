@@ -11,12 +11,11 @@ const app = express();
 
 //connect to mongoDB
 const db = mongoose
-  .connect(
-    `${process.env.DATABASE_URL}`,
-    { useNewUrlParser: true }
-  )
-  .then(() => console.log("Database is connected succesfully!!"))
-  .catch(() => console.log("Database connection failed."));
+    .connect(
+        `${process.env.DATABASE_URL}`, { useNewUrlParser: true }
+    )
+    .then(() => console.log("Database is connected succesfully!!"))
+    .catch(() => console.log("Database connection failed."));
 
 const port = process.env.PORT || 5000;
 
@@ -36,3 +35,5 @@ app.use("/api/profile", profile);
 app.use("/api/posts", posts);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
+
+module.exports = app;
