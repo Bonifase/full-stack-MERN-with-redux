@@ -13,7 +13,7 @@ it("should respond with redirect on post", function(done) {
         .expect("Content-Type", /json/)
         .end(function(err, res) {
             if (err) done(err);
-            res.body.should.have.property("succcesss");
+            expect(res.body).to.not.equal("undefined");
         });
     done();
 });
