@@ -8,10 +8,19 @@ const passport = require("passport");
 //Load user model
 const User = require("../../models/User");
 
+//Load validate user input
+const validateRegisterInput = require("../../validations/register");
+const validateLoginInput = require("../../validations/login");
+
 router.get("/list", (req, res) => res.json({ msg: "User List" }));
 
 //Register user
 router.post("/register", (req, res) => {
+    const { errors, isValid } = validateRegisterInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     User.findOne({ email: req.body.email }).then(user => {
         if (user) {
             return res.status(400).json({ msg: `User with ${user.email} already exist` });
@@ -37,6 +46,10 @@ router.post("/register", (req, res) => {
 
 //Log in User
 router.post("/login", (req, res) => {
+    const { errors, isValid } = validateLoginInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
     const email = req.body.email;
     const password = req.body.password;
     User.findOne({ email: email }).then(user => {
